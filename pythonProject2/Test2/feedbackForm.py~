@@ -1,0 +1,90 @@
+"""from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
+
+def test_skillbox_form():
+    # Настройка драйвера
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+
+    try:
+        # Открытие страницы Skillbox
+        driver.get("https://skillbox.ru/")
+
+        # Ввод имени и номера телефона
+        input_name = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[1]/div/label/input")
+        input_name.send_keys("Кот")
+
+        input_phone = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[2]/div/div/label/div/input")
+        input_phone.send_keys("111 111 11 11")
+
+        input_email = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[3]/div/label/input")
+        input_email.send_keys("incmail.ru")
+
+        # Нажатие кнопки
+        button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[4]/div/button")
+        button.click()
+
+
+    finally:
+        # Закрытие браузера
+        driver.quit()
+
+if __name__ == "__main__":
+    test_skillbox_form()
+"""
+
+
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
+def test_skillbox_form():
+    # Настройка драйвера
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+
+    try:
+        # Открытие страницы Skillbox
+        driver.get("https://skillbox.ru/")
+
+        # Ввод имени и номера телефона
+        input_name = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[1]/div/label/input")
+        input_name.send_keys("Кот")
+
+        input_phone = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[2]/div/div/label/div/input")
+        input_phone.send_keys("111 111 11 11")
+
+        input_email = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[3]/div/label/input")
+        input_email.send_keys("incmail.ru")
+
+        # Нажатие кнопки
+        button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[4]/div/button")
+        button.click()
+
+        # Проверка появления сообщений об ошибках
+        phone_error = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[2]/div/div/span"))
+        )
+        assert phone_error.text == "Неправильный номер телефона", "Ошибка: Сообщение об ошибке номера телефона не соответствует ожидаемому"
+
+        email_error = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/section/div/div/div/form/div[3]/div/span"))
+        )
+        assert email_error.text == "Неправильная электронная почта", "Ошибка: Сообщение об ошибке email не соответствует ожидаемому"
+
+    finally:
+        # Закрытие браузера
+        driver.quit()
+
+if __name__ == "__main__":
+    test_skillbox_form()
+
